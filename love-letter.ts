@@ -120,51 +120,43 @@ const verbs = [
   "woos",
 ];
 
-const pickItem = (array: any[]) =>
+const pickItem = (array: unknown[]) =>
   array[Math.floor(Math.random() * array.length)];
 
+// Algorithm from: There must be an Angel. On the Beginnings of Arithmetics of Rays by David Links, pg 19
+// http://www.alpha60.de/research/there_must_be_an_angel/DavidLink_MustBeAnAngel_2006.pdf
 export const makeLetter = () => {
   let letter = "";
 
-  // 1. Print two words taken from a list of salutations
-  letter += pickItem(salutations1);
-  letter += " ";
-  letter += pickItem(salutations2);
-  letter += "\n";
-  letter += "\n";
+  // opening
+  letter += `${pickItem(salutations1)} ${pickItem(salutations2)}\n\n`;
 
-  // 2. Do the following 5 times:
   for (let i = 0; i < 5; i++) {
-    // Choose one of two sentence structures depending on a random value Rand
     if (Math.random() > 0.5) {
+      // path a: “You are my—Adjective (adj)—Substantive (noun)”
       letter += `You are my ${pickItem(adjectives)} ${pickItem(nouns)}. `;
     } else {
+      // path b: “My—[Adjective]—Substantive—[Adverb (adv)]—Verb (verb)—Your—[Adjective]—Substantive”
       letter += "My ";
       if (Math.random() > 0.5) {
-        letter += pickItem(adjectives);
-        letter += " ";
+        letter += `${pickItem(adjectives)} `;
       }
-      letter += pickItem(nouns);
-      letter += " ";
+      letter += `${pickItem(nouns)} `;
       if (Math.random() > 0.5) {
-        letter += pickItem(adverbs);
-        letter += " ";
+        letter += `${pickItem(adverbs)} `;
       }
-      letter += pickItem(verbs);
-      letter += " ";
-      letter += "Your ";
+      letter += `${pickItem(verbs)} `;
+      letter += "your ";
       if (Math.random() > 0.5) {
-        letter += pickItem(adjectives);
-        letter += " ";
+        letter += `${pickItem(adjectives)} `;
       }
-      letter += pickItem(nouns);
-      letter += ". ";
+      letter += `${pickItem(nouns)}. `;
     }
   }
 
-  // 3. Print the letter's closing
-  letter += "\n";
-  letter += "\n";
+  letter += "\n\n";
+
+  // closing
   letter += `Yours ${pickItem(adverbs)}\n`;
   letter += "M. U. C.";
 
