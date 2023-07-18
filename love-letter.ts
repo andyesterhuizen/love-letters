@@ -168,5 +168,5 @@ export const makeLetter = () => {
   letter += `Yours ${pickItem(adverbs)}\n`;
   letter += "M. U. C.";
 
-  return letter;
+  return letter.toUpperCase();
 };
