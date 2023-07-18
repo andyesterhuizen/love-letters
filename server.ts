@@ -1,5 +1,7 @@
 import { makeLetter } from "./love-letter.ts";
 
+const template = Deno.readTextFileSync("./template.html");
+
 const server = Deno.listen({ port: 8080 });
 console.log(`HTTP webserver running.  Access it at:  http://localhost:8080/`);
 
@@ -11,13 +13,12 @@ async function serveHttp(conn: Deno.Conn) {
   const httpConn = Deno.serveHttp(conn);
 
   for await (const requestEvent of httpConn) {
-    const template = Deno.readTextFileSync("./template.html");
-
     const letter = makeLetter();
 
-    // insert breaks in poem
+    // replace newlines with breaks in letter so the whitespace is preserved
     const letterWithBreaks = letter.replaceAll("\n", "<br>");
 
+    // insert poem in page template
     const page = template.replace("{{LETTER}}", letterWithBreaks);
 
     requestEvent.respondWith(
